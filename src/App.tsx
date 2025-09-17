@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { HfInference } from '@huggingface/inference';
-// import { BookAlert } from "lucide-react";
+import { Shield, AlertTriangle } from "lucide-react";
 
 function App() {
   const [text, setText] = useState('');
-  const [result, setResult] = useState<ToxicityResult | null>(null);
+  const [result, setResult] = useState<ToxicityResult[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -35,7 +35,7 @@ function App() {
         inputs: inputText
       });
 
-      setResult(response[0]); // Take first result
+      setResult(response); // Store all results
     } catch (err: any) {
       setError('Analysis failed: ' + err.message);
     } finally {
@@ -51,6 +51,16 @@ function App() {
 
     return () => clearTimeout(timer);
   }, [text]);
+
+  const getResultIcon = (score: number) => {
+    if (score > 0.5) {
+      return <AlertTriangle className="w-3 h-3" />;
+    }
+    return <Shield className="w-3 h-3" />;
+  };
+
+  // Moved color calculation logic inside the map callback below
+
 
   return (
     <div className="container">
@@ -85,32 +95,46 @@ function App() {
       {result && (
         <div className="result-box">
           <h3>Result:</h3>
-          <p>
-            <strong>Classification:</strong> {result.label}
-          </p>
-          <p>
-            <strong>Confidence:</strong>{" "}
-            {(result.score * 100).toFixed(1)}%
-          </p>
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{
-                width: `${result.score * 100}%`,
-                backgroundColor:
-                  result.label === "TOXIC" ? "#e57373" : "#81c784",
-              }}
-            />
-          </div>
+          {result.map((r, index) => {
+            // Calculate color for progress bar
+            const hue = 120 - r.score * 120; // 120 (green) to 0 (red)
+            const lightness = 80 - r.score * 50;
+            const progressColor = `hsl(${hue}, 70%, ${lightness}%)`;
+
+            return (
+              <div key={index} className="result-item">
+                <div className="result-header">
+                  <div className="result-label">
+                    {getResultIcon(r.score)} {}
+                    <span>{r.label}</span>
+                  </div>
+                  <div className="result-confidence">
+                    <span>Confidence:</span>
+                    <strong>{(r.score * 100).toFixed(1)}%</strong>
+                  </div>
+                </div>
+
+                <div className="progress-bar">
+                  <div
+                    className="progress-fill"
+                    style={{
+                      width: `${r.score * 100}%`,
+                      backgroundColor: progressColor,
+                    }}
+                  />
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 
       <div className="footer-note">
         <p>
-          This app uses Hugging Face's Toxic BERT model to analyze text.
-        </p>
+          This app uses Hugging Face's Toxic BERT model to analyze text.</p>
         <p>Analysis happens automatically 1 second after you stop typing.</p>
       </div>
+
     </div>
   );
 }
