@@ -46,7 +46,7 @@ This is a minimal web app that uses AI to analyze the toxicity of text in real t
 ### Usage
 1. Enter or paste text in the input area.
 2. Wait for the analysis (auto-runs after 1 second of inactivity).
-3. View the classification ("TOXIC" or "NON_TOXIC") and confidence score.
+3. View the classification and confidence score.
 
 ---
 
