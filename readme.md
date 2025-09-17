@@ -3,6 +3,9 @@
 This is a minimal web app that uses AI to analyze the toxicity of text in real time. Built with React, TypeScript, and Vite, it leverages Hugging Face's `unitary/toxic-bert` model to classify input as toxic or non-toxic, providing a confidence score and a visual indicator.
 
 ---
+<p align="center">
+<img width="618" height="420" alt="Screenshot 2025-09-17 at 22 20 45" src="https://github.com/user-attachments/assets/7aac9721-98b4-4fc4-afc9-2503a31e632a" />
+</p>
 
 ### Features
 - **Real-time toxicity analysis**: Text is analyzed automatically 1 second after you stop typing.
