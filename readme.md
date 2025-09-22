@@ -1,6 +1,6 @@
 ## Simple Toxicity Detector
 
-This is a minimal web app that uses AI to analyze the toxicity of text in real time -- it shows whether your text snippet is likely to make someone else leave the chat for instance. Built with React, TypeScript, and Vite, it leverages Hugging Face's `unitary/toxic-bert` model to classify input as toxic or non-toxic, providing a confidence score and a visual indicator.
+This is a minimal web app that uses AI to analyze the toxicity of text -- it shows whether your text snippet is likely to make someone leave the chat. Built with React, TypeScript, and Vite, it leverages Hugging Face's `unitary/toxic-bert` model to classify input as toxic or non-toxic, providing a confidence score and a visual indicator.
 
 ---
 <p align="center">
